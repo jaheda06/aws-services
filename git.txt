@@ -1,0 +1,108 @@
+#!/bin/bash
+
+# git-automation.sh - Automates repository creation, branching, committing, and more
+
+# Function to initialize a new repository
+init_repo() {
+    read -p "Enter repository name: " Jaheda786
+    mkdir "$repo_name" && cd "$repo_name"
+    git init
+    echo "# $repo_name" >> README.md
+    git add README.md
+    git commit -m "Initial commit with README"
+    read -p "Enter remote repository URL: " remote-https://github.com/jaheda06/Jaheda786.git
+    git remote add origin "$remote_url"
+    git push -u origin main
+    echo "Repository initialized and pushed to remote."
+}
+
+# Function to create files and push to the main branch
+create_files_main() {
+    touch file1.txt file2.txt file3.txt
+    echo "This is file1" > file1.txt
+    echo "This is file2" > file2.txt
+    echo "This is file3" > file3.txt
+    git add .
+    git commit -m "Add three files to main branch"
+    git push origin main
+    echo "Files added and pushed to the main branch."
+}
+
+# Function to create a new branch and push files
+create_and_push_branch() {
+    read -p "Enter the branch name: " branch_name
+    git checkout -b "$branch_name"
+    touch file4.txt file5.txt
+    echo "This is file4" > file4.txt
+    echo "This is file5" > file5.txt
+    git add .
+    git commit -m "Add file4 and file5 to $branch_name"
+    git push -u origin "$branch_name"
+    echo "Files added and pushed to $branch_name."
+}
+
+# Function to create a PR and merge the new branch into main
+create_pr_and_merge() {
+    echo "Creating PR and merging requires manual action on GitHub/GitLab UI."
+    echo "After creating a PR, merge the branch into main."
+}
+
+# Function to create a development branch, add files, and revert one file
+development_branch_tasks() {
+    git checkout -b development
+    touch dev_file1.txt dev_file2.txt dev_file3.txt
+    echo "Development file 1" > dev_file1.txt
+    echo "Development file 2" > dev_file2.txt
+    echo "Development file 3" > dev_file3.txt
+    git add .
+    git commit -m "Add three files to development branch"
+    git push -u origin development
+
+    # Reverting dev_file1.txt
+    git rm dev_file1.txt
+    git commit -m "Revert dev_file1.txt"
+    git push origin development
+    echo "Reverted dev_file1.txt from the development branch."
+}
+
+# Function to create a UAT branch, add files, and revert one file
+uat_branch_tasks() {
+    git checkout -b uat
+    touch uat_file1.txt uat_file2.txt uat_file3.txt
+    echo "UAT file 1" > uat_file1.txt
+    echo "UAT file 2" > uat_file2.txt
+    echo "UAT file 3" > uat_file3.txt
+    git add .
+    git commit -m "Add three files to UAT branch"
+    git push -u origin uat
+
+    # Reverting uat_file1.txt
+    git rm uat_file1.txt
+    git commit -m "Revert uat_file1.txt"
+    git push origin uat
+    echo "Reverted uat_file1.txt from the UAT branch."
+}
+
+# Main menu
+echo "Git Automation Script"
+echo "---------------------"
+echo "1. Initialize a new repository"
+echo "2. Create files and push to main branch"
+echo "3. Create another branch and push files"
+echo "4. Create PR and merge with main (manual step)"
+echo "5. Perform development branch tasks"
+echo "6. Perform UAT branch tasks"
+echo "7. Exit"
+
+read -p "Enter your choice [1-7]: " choice
+
+case $choice in
+    1) init_repo ;;
+    2) create_files_main ;;
+    3) create_and_push_branch ;;
+    4) create_pr_and_merge ;;
+    5) development_branch_tasks ;;
+    6) uat_branch_tasks ;;
+    7) echo "Exiting..." ;;
+    *) echo "Invalid option. Please try again." ;;
+esac
